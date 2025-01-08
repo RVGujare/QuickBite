@@ -87,7 +87,7 @@ class OrdersScreen extends StatelessWidget {
                     },
                   ),
                 ] else
-                  const Text('No previous orders')
+                  const Center(child: Text('No previous orders'))
               ],
             ),
           );

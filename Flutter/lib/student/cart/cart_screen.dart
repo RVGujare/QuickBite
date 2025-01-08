@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,7 +85,9 @@ class CartScreen extends StatelessWidget {
                     CustomElevatedButton(screenWidth, screenHeight,
                         'Place Order', context, primaryBrown, white, () {
                       // TimeOfDay minTime = ;
-                      context.read<CartCubit>().placeOrder(totalPrice);
+                      context.read<CartCubit>().placeOrder(totalPrice).then(
+                          (value) =>
+                              {showOrderPlacedDialog(context, screenHeight)});
                     })
                   ],
                 ),
@@ -97,6 +100,80 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
+
+  void showOrderPlacedDialog(BuildContext context, double screenHeight) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AutoSizeText(
+                'Congratulations!',
+                style: TextStyle(
+                    color: primaryBrown,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
+              smallHeightBetweenComponents(screenHeight),
+              const AutoSizeText(
+                'Your order has been placed successfully',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Center(
+              child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                    side: BorderSide(color: primaryBrown),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: AutoSizeText(
+                    'Close',
+                    style: TextStyle(
+                        color: primaryBrown,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  )),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // void showOrderPlacedDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         contentPadding: EdgeInsets.symmetric(horizontal: 24.0),
+  //         content: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.center,
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             AutoSizeText(
+  //               'Congratulations!',
+  //               style: TextStyle(
+  //                   color: primaryBrown,
+  //                   fontWeight: FontWeight.bold,
+  //                   fontSize: 20),
+  //             ),
+  //             const AutoSizeText('Your order has been placed successfully'),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildCartItem(CartItem item, BuildContext context) {
     return Card(
