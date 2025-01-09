@@ -102,7 +102,9 @@ class _TabControllerScreenState extends State<TabControllerScreen>
                                 child: IconButton(
                               iconSize: 40,
                               onPressed: () {
-                                Navigator.pop(context);
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => WelcomeScreen()));
                               },
                               icon:
                                   const Icon(Icons.arrow_circle_left_outlined),

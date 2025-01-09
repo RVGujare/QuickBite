@@ -64,6 +64,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> getCompleteCart() async {
+    debugPrint('complete cart called');
     final userId = auth.currentUser!.uid;
     final url = Uri.parse('http://localhost:3000/cart/complete/$userId');
 

@@ -102,7 +102,7 @@ class _StudentHomePageState extends State<StudentHomePage> {
                           create: (context) => CartCubit(),
                           child: CartScreen()),
                       BlocProvider(
-                        create: (context) => OrdersCubit()..fetchOrders(),
+                        create: (context) => OrdersCubit(),
                         child: OrdersScreen(),
                       ),
                       ProfileScreen(

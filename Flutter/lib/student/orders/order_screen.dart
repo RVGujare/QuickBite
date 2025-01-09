@@ -7,15 +7,32 @@ import 'package:quick_bite/shared/models.dart';
 import 'order_cubit.dart';
 import 'package:quick_bite/constants/colors.dart';
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
 
   @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    _refreshOrder();
+  }
+
+  void _refreshOrder() {
+    context.read<OrdersCubit>().fetchOrders();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
-    context.read<OrdersCubit>().fetchOrders();
+    //context.read<OrdersCubit>().fetchOrders();
     return Scaffold(
       appBar: AppBar(
           title: Center(
@@ -95,6 +112,15 @@ class OrdersScreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void didUpdateWidget(covariant OrdersScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _refreshOrder();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 String extractTime(String formattedDateTime) {

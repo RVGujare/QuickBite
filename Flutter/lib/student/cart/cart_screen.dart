@@ -12,7 +12,23 @@ import 'package:quick_bite/student/cart/cart_cubit.dart';
 import 'package:quick_bite/student/cart/cart_state.dart';
 import 'package:quick_bite/student/orders/order_screen.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  void initState() {
+    super.initState();
+    _refreshCart();
+  }
+
+  void _refreshCart() {
+    context.read<CartCubit>().getCompleteCart();
+  }
+
   double getTotalPrice(List<CartItem> cartItems) {
     double totalPrice = 0;
     for (var item in cartItems) {
@@ -34,7 +50,8 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<CartCubit>().getCompleteCart();
+    // context.read<CartCubit>().getCompleteCart();
+    super.build(context);
     final screenSize = MediaQuery.of(context).size;
     final screenHeight = screenSize.height;
     final screenWidth = screenSize.width;
@@ -101,6 +118,15 @@ class CartScreen extends StatelessWidget {
     );
   }
 
+  @override
+  void didUpdateWidget(covariant CartScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _refreshCart(); // Refresh when widget updates
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
   void showOrderPlacedDialog(BuildContext context, double screenHeight) {
     showDialog(
       context: context,
@@ -151,30 +177,6 @@ class CartScreen extends StatelessWidget {
   }
 
   // void showOrderPlacedDialog(BuildContext context) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         contentPadding: EdgeInsets.symmetric(horizontal: 24.0),
-  //         content: Column(
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: [
-  //             AutoSizeText(
-  //               'Congratulations!',
-  //               style: TextStyle(
-  //                   color: primaryBrown,
-  //                   fontWeight: FontWeight.bold,
-  //                   fontSize: 20),
-  //             ),
-  //             const AutoSizeText('Your order has been placed successfully'),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   Widget _buildCartItem(CartItem item, BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),

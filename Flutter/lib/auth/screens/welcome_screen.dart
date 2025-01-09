@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
             CustomElevatedButton(
                 screenWidth, screenHeight, 'Get Started', context, white, black,
                 () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) => BlocProvider(
                         create: (context) => AuthCubit(),
                         child: const TabControllerScreen(),
